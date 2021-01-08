@@ -5,11 +5,19 @@ Because frankly speaking no one likes to initialize a new repo all the time we s
 For these reasons I decided to create a jumpstart script that, leveraging the new GitHub template and actions features, is creating in a click an empty and fully configured NodeJS GitHub repo. Potentially it could be extended to create whatever rewport you're looking for (vue.js, java, python, ruby, etc.)
 
 ## 📀 How to use it
-To use the JumpStart paste it in a **macOS** Terminal shell prompt.
+Clone the repo on your local machine:
 ```js
-curl -fsSL "https://raw.githubusercontent.com/undeadgrishnackh/kata_jumpstart/main/jumpstart.sh" | bash -s -- <NEW_REPO_NAME>
+gh repo clone undeadgrishnackh/kata_jumpstart
 ```
-Where <NEW_REPO_NAME> is the name of the new repo I wanna create in GitHub and have cloned into your local machine.
+Create a link to the script jumpstart.sh, or call it into your own script. This is mine _createNewNodeJSKata_ that at the end open up Visual Studio Code.
+```js
+#!/usr/bin/env bash
+./kata_jumpstart/jumpstart.sh "$1"
+code "$1"
+```
+Where parameter is the <NEW_REPO_NAME> you wanna create in GitHub and have cloned into your local machine.
+
+⚠️ PS: i was looking to have it working via a **curl | bash** way, but for some reasons, gh creates the remote repo but the local copy is missing and so the script goes in error.
 
 ## 🔍 What does the installer do?
 - checks and in case installs [GitHub client](https://github.com/cli/cli) and [Homebrew](https://brew.sh/).
