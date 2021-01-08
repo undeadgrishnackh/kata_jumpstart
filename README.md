@@ -13,6 +13,11 @@ Create a link to the script jumpstart.sh, or call it into your own script. This 
 ```js
 #!/usr/bin/env bash
 ./kata_jumpstart/jumpstart.sh "$1"
+cd "$1"
+echo " "
+echo "🧪 testing time. ⏲️ it takes a while..."
+inspec exec ../kata_jumpstart/test/jumpstart.spec.rb --interactive --color --enable-telemetry --show-progress
+cd ..
 code "$1"
 ```
 Where parameter is the <NEW_REPO_NAME> you wanna create in GitHub and have cloned into your local machine.
