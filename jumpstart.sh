@@ -111,9 +111,10 @@ function gh_authentication_check () {
 function clone_the_repo_from_the_template () {
   echo " "
   echo "⚙️  cloning the template repo"
-  gh repo create $NEW_REPO_NAME --public --confirm --template="undeadgrishnackh/template-nodejs"  
+  gh repo create $NEW_REPO_NAME --public --confirm --template="undeadgrishnackh/template-nodejs"
   check_for_errors $? "☑️  Repository cloned correctly"  "💥 GitHub client 🙀 terminated with an unexpected exit code..." 
 
+  echo `pwd`
   cd "$NEW_REPO_NAME"
   check_for_errors $?  "☑️  Repository local directory created correctly"  "💥 the $NEW_REPO_NAME directory doesn't exit..."
 }
