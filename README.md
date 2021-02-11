@@ -12,30 +12,39 @@ gh repo clone undeadgrishnackh/kata_jumpstart
 Create a link to the script jumpstart.sh, or call it into your own script. This is mine _createNewNodeJSKata_ that at the end open up Visual Studio Code.
 ```js
 #!/usr/bin/env bash
-./kata_jumpstart/jumpstart.sh "$1"
+sh ./_KataJumpstart_/jumpstart.sh "$1"
+[[ $? -ne 0  ]] && exit 1
 cd "$1"
 echo " "
 echo "🧪 testing time. ⏲️ it takes a while..."
-inspec exec ../kata_jumpstart/test/jumpstart.spec.rb --interactive --color --enable-telemetry --show-progress
-cd ..
-code "$1"
+sh ../_KataJumpstart_/test/test.sh
+code .
+echo "🔌 Integration tests in progress..."
+echo "🔌 Sonarcloud"
+sh ../_KataJumpstart_/test/integration_test.sonarcloud.sh
+echo "🔌 Codacy"
+sh ../_KataJumpstart_/test/integration_test.codacy.sh
 ```
-Where parameter is the <NEW_REPO_NAME> you wanna create in GitHub and have cloned into your local machine.
+The parameter is the <NEW_REPO_NAME> you wanna create in GitHub and have cloned into your local machine.
 
-⚠️ PS: i was looking to have it working via a **curl | bash** way, but for some reasons, gh creates the remote repo but the local copy is missing and so the script goes in error.
+⚠️ PS: I was looking to have it working via a **curl | bash** way, but for some reason, *gh* creates the remote repo but, the local copy creation phase goes in error.
 
 ## 🔍 What does the installer do?
 - checks and in case installs [GitHub client](https://github.com/cli/cli) and [Homebrew](https://brew.sh/).
 - checks your GitHub Auth.
-- creates a  new github repository from [my NodeJS teplate](https://github.com/undeadgrishnackh/template-nodejs)
+- creates a  new GitHub repository from [my NodeJS teplate](https://github.com/undeadgrishnackh/template-nodejs)
 - pulls the new repo on your local PC (main branch)
-- tunes the template for the new repository (package.js, sonarcloud, README badges)
+- tunes the template for the new repository (package.js, SonarCloud, README badges)
 - executes _'npm install'_
 - executes _'npm test'_
+- integrate via API_TOKEN injected from your shell environment:
+  - Sonarcloud.io (SONARCLOUD_TOKEN exported into the shell is necessary)
+  - Snyk.com (SNYK_TOKEN exported into the shell is necessary)
+  - Codacy.com (CODACY_TOKEN exported into the shell is necessary)
 - executes _git add & git push_
 
 ## 🔍 What is inside the NodeJS template?
-The [template repository](https://github.com/undeadgrishnackh/template-nodejs) is a fully configfured NodeJs repo with:
+The [template repository](https://github.com/undeadgrishnackh/template-nodejs) is a fully configured NodeJs repo with:
 - jest
 - eslint + prettier configured with AirBnB setup
 - husky to enforce on git commit the compliance about:
@@ -51,8 +60,8 @@ The [template repository](https://github.com/undeadgrishnackh/template-nodejs) i
   - BetterCode [![BCH compliance](https://bettercodehub.com/edge/badge/undeadgrishnackh/template-nodejs?branch=master)](https://bettercodehub.com/)
   - CodeScene [![CodeScene System Mastery](https://codescene.io/projects/7748/status-badges/system-mastery)](https://codescene.io/projects/7748)
 
-## 👨‍💻 post install tuning
-After you got your the new repository you can start straight away to code, or you can tune something at the moment I'm still spiking about secrets to make working SNYK, SonarCloud, or to add Codacay, CodeScene, BetterCode.
+## 👨‍💻 post-install tuning
+After you got your new repository you can start straight away to code. VSCode will pop up, and you are ready to code. In the background, some integrations are running: SNYK, SonarCloud, Codacay. It is done using some API and related API_TOKEN, injected via environmental variables.
 
 ## 🕵️ I wanna test the final result - 🏗️ _under construction_ 
 I would like to have developed the whole thing in TDD, but bash and TDD are still not so friends... so I'm working to do an infrastructure test suite with [chef inspec](https://community.chef.io/tools/chef-inspec/). In the test directory are stored the ♦️ ruby.spec that will check the final result via the jumpstart.test.sh script. 
