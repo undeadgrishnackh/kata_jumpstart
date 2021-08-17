@@ -166,7 +166,7 @@ function npm_test () {
   echo " "
   echo "🧪👨‍🔬 time to test if everything is working..."
   ensure_the_directory_is_the_new_repository
-  npm test
+  npm run testNoGitCommit
   check_return_code $? "☑️  npm test setup correctly." "💥 npm test exploded 💣💣💣..."
 }
 
